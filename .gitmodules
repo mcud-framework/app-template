@@ -1,0 +1,3 @@
+[submodule "mcud"]
+	path = mcud
+	url = ../../mcud-framework/mcud.git

@@ -1,0 +1,26 @@
+# Ignore the bin directory
+/bin
+
+# Dub things
+/dub.sdl
+/dub.selections.json
+/.dub
+/docs.json
+/__dummy.html
+/docs
+
+# Compiled binaries
+*.o
+*.obj
+*.so
+*.dylib
+*.dll
+*.a
+*.lib
+*.exe
+
+# IDE settings
+.vscode
+
+# macOS files
+.DS_Store
