@@ -3,33 +3,26 @@
 # support board.
 # It is used by the github workflow to test a build on everything.
 
-.PHONY: all test
-all:
+.PHONY: all build test
+all: build
+build:
 test:
 
-define build_example_board =
-.PHONY: build_$1_$2
-cache_$1_$2:
-	@echo === Downloading build cache for $1 for $2 ===
-	BOARD=$2 $(MAKE) -C examples/$1 download_buildcache
-build_$1_$2: cache_$1_$2
-	@echo === Building $1 for $2 ===
-	BOARD=$2 $(MAKE) -C examples/$1
-.PHONY: test_$1_$2
-test_$1_$2:
-	@echo === Testing $1 for $2 ===
-	BOARD=$2 $(MAKE) -C examples/$1 test
-build_$1: build_$1_$2
-test_$1: test_$1_$2
-endef
-
-define build_example =
-$(eval BOARDS_$1 := $(shell $(MAKE) describe | grep SUPPORTED_BOARDS | cut -d= -f2))
-$(foreach BOARD,$(BOARDS_$1),$(eval $(call build_example_board,$1,$(BOARD))))
+define BUILD_board =
 .PHONY: build_$1
-all: build_$1
+cache_$1:
+	@echo === Downloading build cache for $1 ===
+	BOARD=$1 $(MAKE) download_buildcache
+build_$1: cache_$1
+	@echo === Building for $1 ===
+	BOARD=$1 $(MAKE)
 .PHONY: test_$1
-testall: test_$1
-endef
+test_$1:
+	@echo === Testing for $1 ===
+	BOARD=$1 $(MAKE) test
+build: build_$1
+test: test_$1
+endef #build_board
 
-$(foreach EXAMPLE,$(EXAMPLES),$(eval $(call build_example,$(EXAMPLE))))
+BOARDS := $(shell $(MAKE) describe | grep SUPPORTED_BOARDS | cut -d= -f2)
+$(foreach BOARD,$(BOARDS),$(eval $(call BUILD_board,$(BOARD))))
