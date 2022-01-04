@@ -1,5 +1,6 @@
 # This will find all supported boards from the Makefile, and add build targets
-# for each. Additionally, the all target will build all targets.
+# for each. Additionally, the all target will build the application for each
+# support board.
 # It is used by the github workflow to test a build on everything.
 
 .PHONY: all test
