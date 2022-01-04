@@ -13,6 +13,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+        submodules: true
+      
       - name: Build
         run: make -f ci.mk
